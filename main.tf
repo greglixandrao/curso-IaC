@@ -1,7 +1,7 @@
 terraform {
   required_providers {
 	aws = {
-		source = "hashicorp"
+		source = "hashicorp/aws"
 		version = "~> 3.27"
 	}
   }
@@ -9,15 +9,16 @@ terraform {
 }
 
 provider "aws" {
-  profile = "default"
+  profile = "aws-estudos"
   region = "us-west-2"
 }
 
-resource "aws_instance" "app-server" {
+resource "aws_instance" "app_server" {
   ami = "ami-03f65b8614a860c29"
   instance_type = "t2.micro"
-}
-
-tags = {
-	Name = "EstudoAluraIaC"
+  key_name = "aws-estudos-user-greglixandrao"
+  tags = {
+		Name = "EstudoAluraIaC"
+		curso = "AluraIaC"
+	}
 }
