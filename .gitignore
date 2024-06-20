@@ -79,6 +79,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# JetBrains folder
+.idea
 
 # secrets file
 *.pem
