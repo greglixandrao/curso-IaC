@@ -16,12 +16,17 @@
           - django
           - djangorestframework
 
-    # - name: Iniciando o projeto
-    #   ansible.builtin.shell: '. /home/ubuntu/venv/bin/activate; django-admin startproject setup /home/ubuntu/'
-    # - name: Alterando o hosts do settings
-    #   lineinfile:
-    #     path: /home/ubuntu/setup/settings.py'
-    #     regexp: 'ALLOWED_HOSTS'
-    #     line: 'ALLOWED_HOSTS = ["*"]'
-    #     backrefs: true
+    - name: Start project
+      shell: '. /home/ubuntu/venv/bin/activate; django-admin startproject setup /home/ubuntu/'
+      ignore_errors: yes
+
+    - name: Changing hosts from settings
+      lineinfile:
+        path: /home/ubuntu/setup/settings.py
+        regexp: 'ALLOWED_HOSTS'
+        line: 'ALLOWED_HOSTS = ["*"]'
+        backrefs: yes
+
+    - name: Run the server
+      shell: '. venv/bin/activate; python manage.py runserver 0.0.0.0:8000 &'
 
