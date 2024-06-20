@@ -18,12 +18,12 @@ resource "aws_instance" "app_server" {
   instance_type        = "t3.micro"
   key_name             = "aws-alura-api-go-dev"
   iam_instance_profile = "EC2InstanceRole"
-  #   user_data = <<-EOF
-  # 				#!/bin/bash
-  # 				cd /home/ubuntu
-  # 				echo "<h1>Hello World done with Terraform and AWS</h1>" > index.html
-  # 				nohup busybox httpd -f -p 8080 &
-  # 				EOF
+#   user_data            = <<-EOF
+#                  #!/bin/bash
+#                  cd /home/ubuntu
+#                  echo "<h1>Hello World done with Terraform and AWS</h1>" > index.html
+#                  nohup busybox httpd -f -p 8080 &
+#                  EOF
   tags = {
     Name  = "EstudoAluraIaC com webserver"
     curso = "AluraIaC"
