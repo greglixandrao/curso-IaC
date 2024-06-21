@@ -10,22 +10,22 @@ terraform {
 
 provider "aws" {
   profile = "default"
-  region  = "us-west-2"
+  region  = var.aws-region
 }
 
 resource "aws_instance" "app_server" {
   ami                  = "ami-03c983f9003cb9cd1"
-  instance_type        = "t3.micro"
-  key_name             = "aws-alura-api-go-dev"
+  instance_type        = var.instance-type
+  key_name             = var.ssh-key
   iam_instance_profile = "EC2InstanceRole"
-#   user_data            = <<-EOF
-#                  #!/bin/bash
-#                  cd /home/ubuntu
-#                  echo "<h1>Hello World done with Terraform and AWS</h1>" > index.html
-#                  nohup busybox httpd -f -p 8080 &
-#                  EOF
   tags = {
     Name  = "EstudoAluraIaC com webserver"
     curso = "AluraIaC"
   }
+}
+
+# Using auto generated key-pair
+resource "aws_key_pair" "ssh-key" {
+  key_name   = var.ssh-key
+  public_key = file("${var.ssh-key}.pub")
 }

@@ -27,6 +27,3 @@
         line: 'ALLOWED_HOSTS = ["*"]'
         backrefs: yes
 
-    - name: Run the server
-      shell: '. venv/bin/activate; python manage.py runserver 0.0.0.0:8000 &'
-
