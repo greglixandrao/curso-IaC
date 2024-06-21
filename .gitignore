@@ -84,4 +84,8 @@ $RECYCLE.BIN/
 
 # secrets file
 *.pem
+iac-dev
+iac-dev.pub
+iac-prod
+iac-prod.pud
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,terraform,windows
