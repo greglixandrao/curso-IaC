@@ -14,13 +14,12 @@
         repo: https://github.com/alura-cursos/clientes-leo-api.git
         dest: /home/ubuntu/tcc
         version: master
+        force: yes
 
     - name: Install dependenci with pip
       pip:
         virtualenv: /home/ubuntu/tcc/venv
-        name:
-          - django
-          - djangorestframework
+        requirements: /home/ubuntu/tcc/requirements.txt
 
     - name: Changing hosts from settings
       lineinfile:
