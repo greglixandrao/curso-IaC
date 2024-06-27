@@ -89,5 +89,5 @@ iac-dev.pub
 iac-prod
 iac-prod.pub
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,terraform,windows
-env/Dev/.terraform.lock.hcl
-infra/.terraform.lock.hcl
+*.hcl
+*.lock.hcl
