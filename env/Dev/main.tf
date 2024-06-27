@@ -4,3 +4,7 @@ module "dev-environment" {
   aws-region    = "us-west-2"
   ssh-key       = "iac-dev"
 }
+
+output "dev_IP" {
+  value = module.dev-environment.public_IP
+}
