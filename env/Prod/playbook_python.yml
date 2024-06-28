@@ -27,3 +27,11 @@
         regexp: 'ALLOWED_HOSTS'
         line: 'ALLOWED_HOSTS = ["*"]'
         backrefs: yes
+
+    - name: Configure Database
+      shell: '. /home/ubuntu/tcc/venv/bin/activate; python /home/ubuntu/tcc/manage.py migrate'
+    - name: Load inicial data
+      shell: '. /home/ubuntu/tcc/venv/bin/activate; python /home/ubuntu/tcc/manage.py loaddata clientes.json'
+
+    - name: Starting server
+      shell: '. /home/ubuntu/tcc/venv/bin/activate; nohup python /home/ubuntu/tcc/manage.py runserver 0.0.0.0:8000 &'
