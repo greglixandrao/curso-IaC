@@ -13,14 +13,16 @@ provider "aws" {
   region  = var.aws-region
 }
 
-resource "aws_instance" "app_server" {
-  ami                  = "ami-03c983f9003cb9cd1"
-  instance_type        = var.instance-type
-  key_name             = var.ssh-key
-  iam_instance_profile = "EC2InstanceRole"
+resource "aws_launch_template" "server" {
+  image_id      = "ami-03c983f9003cb9cd1"
+  instance_type = var.instance-type
+  key_name      = var.ssh-key
+  iam_instance_profile {
+    name = "EC2InstanceRole"
+  }
   tags = {
-    Name  = "EstudoAluraIaC com webserver"
-    curso = "AluraIaC"
+    Name  = "Formacao IaC with Terraform and Ansible"
+    curso = "Formacao IAC"
   }
 }
 
