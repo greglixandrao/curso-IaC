@@ -24,7 +24,7 @@ resource "aws_launch_template" "server" {
     Name  = "Formacao IaC with Terraform and Ansible"
     curso = "Formacao IAC"
   }
-  security_group_names = ["var.securityGroup"]
+  security_group_names = [var.securityGroup]
 }
 
 # Using auto generated key-pair
@@ -33,14 +33,11 @@ resource "aws_key_pair" "ssh-key" {
   public_key = file("${var.ssh-key}.pub")
 }
 
-output "public_IP" {
-  value = aws_instance.app_server.public_ip
-}
-
 resource "aws_autoscaling_group" "autoscalingGroup" {
-  name     = var.asGroup
-  max_size = var.maximo
-  min_size = var.minimum
+  availability_zones = ["${var.aws-region}a"]
+  name               = var.asGroup
+  max_size           = var.maximo
+  min_size           = var.minimum
   launch_template {
     id      = aws_launch_template.server.id
     version = "$Latest"
