@@ -91,3 +91,6 @@ iac-prod.pub
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,terraform,windows
 *.hcl
 *.lock.hcl
+
+# Locust test files
+**/__pycache__/
