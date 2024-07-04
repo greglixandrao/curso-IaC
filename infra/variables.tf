@@ -9,3 +9,19 @@ variable "ssh-key" {
 variable "instance-type" {
   type = string
 }
+
+variable "securityGroup" {
+  type = string
+}
+
+variable "asGroup" {
+  type = string
+}
+
+variable "maximo" {
+  type = number
+}
+
+variable "minimum" {
+  type = number
+}
