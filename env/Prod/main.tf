@@ -8,7 +8,3 @@ module "prod-environment" {
   maximo        = 10
   asGroup       = "Prod"
 }
-
-output "dev_IP" {
-  value = module.prod-environment.public_IP
-}

@@ -8,7 +8,3 @@ module "dev-environment" {
   maximo        = 2
   asGroup       = "Dev"
 }
-
-output "dev_IP" {
-  value = module.dev-environment.public_IP
-}
