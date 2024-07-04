@@ -25,6 +25,7 @@ resource "aws_launch_template" "server" {
     curso = "Formacao IAC"
   }
   security_group_names = [var.securityGroup]
+  user_data = filebase64("ansible.sh")
 }
 
 # Using auto generated key-pair
