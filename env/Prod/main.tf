@@ -1,10 +1,11 @@
 module "prod-environment" {
   source        = "../../infra"
-  instance-type = "t3.micro"
+  instance-type = "t2.micro"
   aws-region    = "us-west-2"
   ssh-key       = "iac-prod"
   securityGroup = "Producao"
-  minimum       = 1
+  minimum       = 2
   maximo        = 10
   asGroup       = "Prod"
+  producao = true
 }
