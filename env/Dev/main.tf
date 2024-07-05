@@ -4,7 +4,7 @@ module "dev-environment" {
   aws-region    = "us-west-2"
   ssh-key       = "iac-dev"
   securityGroup = "Dev"
-  minimum       = 0
+  minimum       = 1
   maximo        = 1
   asGroup       = "Dev"
   producao      = false
