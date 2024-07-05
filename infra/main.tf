@@ -25,7 +25,7 @@ resource "aws_launch_template" "server" {
     curso = "Formacao IAC"
   }
   security_group_names = [var.securityGroup]
-  user_data = filebase64("ansible.sh")
+  user_data            = var.producao ? filebase64("ansible.sh") : ""
 }
 
 # Using auto generated key-pair
@@ -39,43 +39,59 @@ resource "aws_autoscaling_group" "autoscalingGroup" {
   name               = var.asGroup
   max_size           = var.maximo
   min_size           = var.minimum
+  target_group_arns  = var.producao ? [aws_lb_target_group.targetServers[0].arn] : []
   launch_template {
     id      = aws_launch_template.server.id
     version = "$Latest"
   }
-  target_group_arns = [ aws_lb_target_group.LB_target_group.arn ]
 }
 
 resource "aws_default_subnet" "subnet_1" {
-	availability_zone = "${var.aws-region}a"
+  availability_zone = "${var.aws-region}a"
 }
 
 resource "aws_default_subnet" "subnet_2" {
-	availability_zone = "${var.aws-region}b"
+  availability_zone = "${var.aws-region}b"
 }
 
 resource "aws_lb" "loadBalancer" {
-	internal = false
-	subnets = [ aws_default_subnet.subnet_1.id, aws_default_subnet.subnet_2.id ]
-}
-
-resource "aws_lb_target_group" "LB_target_group" {
-	name = "targetServers"
-	port = "8000"
-	protocol = "HTTP"
-	vpc_id = aws_default_vpc.default.id
+  internal = false
+  subnets  = [aws_default_subnet.subnet_1.id, aws_default_subnet.subnet_2.id]
+  count    = var.producao ? 1 : 0
 }
 
 resource "aws_default_vpc" "default" {
-
+}
+resource "aws_lb_target_group" "targetServers" {
+  name     = "targetServers"
+  port     = "8000"
+  protocol = "HTTP"
+  vpc_id   = aws_default_vpc.default.id
+  count    = var.producao ? 1 : 0
 }
 
+
+
 resource "aws_lb_listener" "LB_input" {
-	load_balancer_arn = aws_lb.loadBalancer.arn
-	port = "8000"
-	protocol = "HTTP"
-	default_action {
-	  type = "forward"
-	  target_group_arn = aws_lb_target_group.LB_target_group.arn
-	}
+  load_balancer_arn = aws_lb.loadBalancer[0].arn
+  port              = "8000"
+  protocol          = "HTTP"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.targetServers[0].arn
+  }
+  count = var.producao ? 1 : 0
+}
+
+resource "aws_autoscaling_policy" "autoscaling-policy-prod" {
+  name                   = "autoscaling-terraform"
+  autoscaling_group_name = var.asGroup
+  policy_type            = "TargetTrackingScaling"
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 40.0
+  }
+  count = var.producao ? 1 : 0
 }
