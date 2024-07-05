@@ -31,6 +31,25 @@ resource "aws_autoscaling_group" "autoscalingGroup" {
   }
 }
 
+resource "aws_autoscaling_schedule" "autostart" {
+  scheduled_action_name  = "start"
+  min_size               = 0
+  max_size               = 1
+  desired_capacity       = 1
+  start_time             = timeadd(timestamp(), "10m")
+  recurrence             = "0 10 * * MON-FRI"
+  autoscaling_group_name = aws_autoscaling_group.autoscalingGroup.name
+}
+resource "aws_autoscaling_schedule" "autostop" {
+  scheduled_action_name  = "stop"
+  min_size               = 0
+  max_size               = 1
+  desired_capacity       = 1
+  start_time             = timeadd(timestamp(), "11m")
+  recurrence             = "0 22 * * MON-FRI"
+  autoscaling_group_name = aws_autoscaling_group.autoscalingGroup.name
+}
+
 resource "aws_default_subnet" "subnet_1" {
   availability_zone = "${var.aws-region}a"
 }
